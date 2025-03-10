@@ -1,0 +1,111 @@
+Server Name : development-api.hellalit.org
+DNS Lookup: 	52.52.140.149
+
+After getting IP address search in Server Details Sheets
+
+After getting SSH then Login with terminal
+
+somu@somu:~$ sudo -i
+[sudo] password for somu: 
+root@somu:~# cd /home/somu/Documents/pem
+root@somu:/home/somu/Documents/pem# ssh -i "hellalit.pem" ec2-user@ec2-52-52-140-149.us-west-1.compute.amazonaws.com
+
+After that SSH login
+
+  #Sudo -i
+   cd /home
+   netstat -tulpn | grep LISTEN
+     ps -aux | grep httpd 
+     cd /etc/httpd
+     cd conf.d
+     ll
+     vi virtual.conf
+     Copy and paste the Server Details
+     wq!
+   cat virtual.conf 
+    cd /etc/httpd/ssl/   
+    ll
+    openssl req -new -newkey rsa:2048 -nodes -keyout karthick-test.ephrontech.com.key -out karthick-test.ephrontech.com.csr
+    cat karthick-test.ephrontech.com.csr
+    
+    Copy those content and paste it in CSR in Free ssl
+    
+    cd /home
+    ll
+    cd test
+    ll
+    cd public_html
+    l.
+    cd .well-known
+    ll
+    cd pki-validation
+    ll
+    vi (Need to paste file .txt value)
+    Download the file
+    enter those contents and save 
+    Validate
+    Download Apache 
+    Enter those content
+    Restart Apache -> service httpd restart
+    
+   Syntax Command : /usr/local/apache/bin/httpd -t
+Syntax OK
+Restart Command /usr/local/apache/bin/httpd -k restart
+
+     
+
+------------------------------------------------------------------------------------------------------------------------
+
+<VirtualHost *:80>
+    ServerAdmin webmaster@ephronsystems.com
+    DocumentRoot /home/test/public_html
+    ServerName karthick-test.ephrontech.com
+    <Directory "/home/test/public_html">
+#Options Indexes FollowSymLinks MultiViews
+#<FilesMatch \.php$>
+ # SetHandler "proxy:fcgi://127.0.0.1:9001"
+#</FilesMatch>
+Require all granted
+   AllowOverride All
+    Allow from all
+</Directory>
+    ErrorLog logs/karthick-test.ephrontech.com-error_log
+    CustomLog logs/karthick-test.ephrontech.com-access_log common
+</VirtualHost>
+
+<VirtualHost *:443>
+    ServerAdmin webmaster@ephronsystems.com
+    DocumentRoot /home/test/public_html
+    ServerName  karthick-test.ephrontech.com
+  <Directory "/home/test/public_html">
+Options Indexes FollowSymLinks MultiViews
+Require all granted
+   AllowOverride All
+    Allow from all
+</Directory>
+SSLEngine on
+SSLCertificateFile "/etc/httpd/ssl/karthick-test.ephrontech.crt"
+SSLCertificateKeyFile "/etc/httpd/ssl/karthick-test.ephrontech.key"
+SSLCACertificateFile "/etc/httpd/ssl/karthick-test.gd_ephrontech.crt"
+</VirtualHost>
+
+openssl req -new -newkey rsa:2048 -nodes -keyout karthick-test.ephrontech.com.key -out karthick-test.ephrontech.com.csr
+
+https://tecadmin.net/install-apache24-php7-on-amazon-linux/ - Apache and  PHP install commands 
+
+httpd -k restart
+
+
+
+
+
+
+
+
+
+
+
+     
+     
+     
+        
