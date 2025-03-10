@@ -7,6 +7,20 @@ files:
 
 file_exists_behavior: OVERWRITE
 
+permissions:
+  - object: /home/testcase/deploy-temp/scripts/deploy_staging.sh
+    owner: testcase
+    group: testcase
+    mode: 755
+  - object: /home/testcase/deploy-temp/scripts/wait_for_approval.sh
+    owner: root
+    group: root
+    mode: 755
+  - object: /home/testcase/deploy-temp/scripts/deploy_production.sh
+    owner: etpmc
+    group: etpmc
+    mode: 755
+
 hooks:
   ApplicationStart:
     - location: /home/testcase/deploy-temp/scripts/deploy_staging.sh
@@ -15,6 +29,9 @@ hooks:
 
   AfterInstall:
     - location: /home/testcase/deploy-temp/scripts/wait_for_approval.sh
+      runas: root
+      timeout: 300
+    - location: /home/testcase/deploy-temp/scripts/set_production_permissions.sh
       runas: root
       timeout: 300
 
