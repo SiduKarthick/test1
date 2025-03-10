@@ -2,23 +2,23 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /tmp/codedeploy-temp
+    destination: /home/testcase/deploy-temp
   - source: scripts/
-    destination: /tmp/codedeploy-temp/scripts/
+    destination: /home/testcase/deploy-temp/scripts/
 file_exists_behavior: OVERWRITE
 
 hooks:
   BeforeInstall:
-    - location: /tmp/codedeploy-temp/scripts/wait_for_approval.sh
+    - location: scripts/wait_for_approval.sh
       runas: root
       timeout: 300
 
   AfterInstall:
-    - location: /tmp/codedeploy-temp/scripts/deploy_staging.sh
+    - location: scripts/deploy_staging.sh
       runas: testcase
       timeout: 300
 
   ApplicationStart:
-    - location: /tmp/codedeploy-temp/scripts/deploy_production.sh
+    - location: scripts/deploy_production.sh
       runas: etpmc
       timeout: 300
