@@ -4,20 +4,18 @@ os: linux
 files:
   - source: /
     destination: /home/testcase/deploy-temp
-  - source: scripts/
-    destination: /home/testcase/deploy-temp/scripts/
 
 file_exists_behavior: OVERWRITE
 
 hooks:
+  BeforeInstall:
+    - location: /home/testcase/deploy-temp/scripts/wait_for_approval.sh
+      runas: root
+      timeout: 300
+
   ApplicationStart:
     - location: /home/testcase/deploy-temp/scripts/deploy_staging.sh
       runas: testcase
-      timeout: 300
-
-  AfterInstall:
-    - location: /home/testcase/deploy-temp/scripts/wait_for_approval.sh
-      runas: root
       timeout: 300
 
   ValidateService:
