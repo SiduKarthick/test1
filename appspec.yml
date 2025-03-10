@@ -8,34 +8,24 @@ files:
 file_exists_behavior: OVERWRITE
 
 permissions:
-  - object: /home/testcase/deploy-temp/scripts/deploy_staging.sh
-    owner: testcase
-    group: testcase
-    mode: 755
-  - object: /home/testcase/deploy-temp/scripts/wait_for_approval.sh
+  - object: /home/testcase/deploy-temp/scripts/
+    pattern: "*.sh"
     owner: root
     group: root
-    mode: 755
-  - object: /home/testcase/deploy-temp/scripts/deploy_production.sh
-    owner: etpmc
-    group: etpmc
-    mode: 755
+    mode: 755  # Ensure execute permission
 
 hooks:
   ApplicationStart:
-    - location: /home/testcase/deploy-temp/scripts/deploy_staging.sh
+    - location: scripts/deploy_staging.sh
       runas: testcase
       timeout: 300
 
   AfterInstall:
-    - location: /home/testcase/deploy-temp/scripts/wait_for_approval.sh
-      runas: root
-      timeout: 300
-    - location: /home/testcase/deploy-temp/scripts/set_production_permissions.sh
+    - location: scripts/wait_for_approval.sh
       runas: root
       timeout: 300
 
   ValidateService:
-    - location: /home/testcase/deploy-temp/scripts/deploy_production.sh
+    - location: scripts/deploy_production.sh
       runas: etpmc
       timeout: 300
