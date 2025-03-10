@@ -2,11 +2,9 @@ version: 0.0
 os: linux
 
 files:
-  # Copy only necessary application files to staging (excluding appspec.yml)
-  - source: /
+  # Copy application files except appspec.yml
+  - source: app/    # Assuming your app files are inside the `app/` directory
     destination: /home/testcase/public_html/
-    exclude:
-      - appspec.yml
     file_exists_behavior: OVERWRITE
 
   # Copy deployment scripts separately
