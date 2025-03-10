@@ -4,8 +4,28 @@ files:
   - source: /
     destination: /tmp/codedeploy-temp
 file_exists_behavior: OVERWRITE
+
 hooks:
   AfterInstall:
-    - location: scripts/deploy-to-correct-user.sh
+    - runas: testcase  # Staging user
       timeout: 300
-      runas: root
+      command: |
+        echo "Deploying to staging..."
+        rsync -av --delete /tmp/codedeploy-temp/ /home/testcase/
+        chown -R testcase:testcase /home/testcase/
+        echo "Staging deployment completed."
+
+  # Manual approval required before Production deploy
+  BeforeInstall:
+    - runas: root
+      timeout: 300
+      command: echo "Waiting for manual approval before deploying to production..."
+
+  ApplicationStart:
+    - runas: etpmc  # Production user
+      timeout: 300
+      command: |
+        echo "Deploying to production..."
+        rsync -av --delete /tmp/codedeploy-temp/ /home/etpmc/
+        chown -R etpmc:etpmc /home/etpmc/
+        echo "Production deployment completed."
