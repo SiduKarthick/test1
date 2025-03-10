@@ -2,5 +2,5 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/test1
+    destination: /home/testcase/public_html
 file_exists_behavior: OVERWRITE
