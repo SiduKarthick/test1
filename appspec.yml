@@ -2,14 +2,17 @@ version: 0.0
 os: linux
 
 files:
-  # Copy all project files to staging directory
+  # Copy only necessary application files to staging (excluding appspec.yml)
   - source: /
     destination: /home/testcase/public_html/
+    exclude:
+      - appspec.yml
     file_exists_behavior: OVERWRITE
 
   # Copy deployment scripts separately
   - source: scripts/
     destination: /home/testcase/deploy-temp/scripts/
+    file_exists_behavior: OVERWRITE
 
 permissions:
   - object: /home/testcase/deploy-temp/scripts/
