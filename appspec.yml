@@ -7,25 +7,16 @@ file_exists_behavior: OVERWRITE
 
 hooks:
   AfterInstall:
-    - runas: testcase  # Staging user
+    - location: scripts/deploy_staging.sh
+      runas: testcase  # Staging user
       timeout: 300
-      command: |
-        echo "Deploying to staging..."
-        rsync -av --delete /tmp/codedeploy-temp/ /home/testcase/
-        chown -R testcase:testcase /home/testcase/
-        echo "Staging deployment completed."
 
-  # Manual approval required before Production deploy
   BeforeInstall:
-    - runas: root
+    - location: scripts/wait_for_approval.sh
+      runas: root
       timeout: 300
-      command: echo "Waiting for manual approval before deploying to production..."
 
   ApplicationStart:
-    - runas: etpmc  # Production user
+    - location: scripts/deploy_production.sh
+      runas: etpmc  # Production user
       timeout: 300
-      command: |
-        echo "Deploying to production..."
-        rsync -av --delete /tmp/codedeploy-temp/ /home/etpmc/
-        chown -R etpmc:etpmc /home/etpmc/
-        echo "Production deployment completed."
