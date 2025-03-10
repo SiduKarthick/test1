@@ -2,10 +2,14 @@ version: 0.0
 os: linux
 
 files:
+  # Copy all project files to staging directory
+  - source: /
+    destination: /home/testcase/public_html/
+    file_exists_behavior: OVERWRITE
+
+  # Copy deployment scripts separately
   - source: scripts/
     destination: /home/testcase/deploy-temp/scripts/
-
-file_exists_behavior: OVERWRITE
 
 permissions:
   - object: /home/testcase/deploy-temp/scripts/
