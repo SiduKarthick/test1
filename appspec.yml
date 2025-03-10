@@ -2,18 +2,29 @@ version: 0.0
 os: linux
 
 files:
-  # Copy application files except appspec.yml
-  - source: app/    # Assuming your app files are inside the `app/` directory
+  # Copy application files to staging and production users
+  - source: app/
     destination: /home/testcase/public_html/
+    file_exists_behavior: OVERWRITE
+  - source: app/
+    destination: /home/etpmc/public_html/
     file_exists_behavior: OVERWRITE
 
   # Copy deployment scripts separately
   - source: scripts/
     destination: /home/testcase/deploy-temp/scripts/
     file_exists_behavior: OVERWRITE
+  - source: scripts/
+    destination: /home/etpmc/deploy-temp/scripts/
+    file_exists_behavior: OVERWRITE
 
 permissions:
   - object: /home/testcase/deploy-temp/scripts/
+    pattern: "*.sh"
+    owner: root
+    group: root
+    mode: 755  # Ensure execute permission
+  - object: /home/etpmc/deploy-temp/scripts/
     pattern: "*.sh"
     owner: root
     group: root
