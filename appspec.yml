@@ -11,16 +11,16 @@ file_exists_behavior: OVERWRITE
 
 hooks:
   ApplicationStart:
-    - location: scripts/deploy_staging.sh
+    - location: /home/testcase/deploy-temp/scripts/deploy_staging.sh
       runas: testcase
       timeout: 300
 
   AfterInstall:
-    - location: scripts/wait_for_approval.sh
+    - location: /home/testcase/deploy-temp/scripts/wait_for_approval.sh
       runas: root
       timeout: 300
 
   ValidateService:
-    - location: scripts/deploy_production.sh
+    - location: /home/testcase/deploy-temp/scripts/deploy_production.sh
       runas: etpmc
       timeout: 300
