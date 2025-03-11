@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 
 files:
-  # Copy application files to staging and production users
+  # Copy application files to both staging and production users
   - source: app/
     destination: /home/testcase/public_html/
     file_exists_behavior: OVERWRITE
